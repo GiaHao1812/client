@@ -1,7 +1,8 @@
-import { Button, Card, Checkbox, Form, Input, Typography } from "antd";
+import { Button, Card, Form, Input, message, Typography } from "antd";
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import SocialLogin from "../../components/SocialLogin";
+import handleAPI from "../../apis/handleAPI";
 
 const { Title, Paragraph, Text } = Typography;
 
@@ -10,8 +11,19 @@ const SignUp = () => {
 
   const [form] = Form.useForm();
 
-  const handleLogin = (values: { email: string; password: string }) => {
-    console.log(values);
+  const handleLogin = async (values: { email: string; password: string }) => {
+    const api = `/auth/register`;
+
+    setIsLoading(true);
+    try {
+      const res = await handleAPI(api, values, "post");
+      console.log(res);
+    } catch (error: any) {
+      console.log(error);
+      message.error(error.message);
+    } finally {
+      setIsLoading(false);
+    }
   };
   return (
     <>
@@ -76,6 +88,17 @@ const SignUp = () => {
                 required: true,
                 message: "Please enter your password !!!",
               },
+              () => ({
+                validator: (_, value) => {
+                  if (value.length < 6) {
+                    return Promise.reject(
+                      new Error("Your password must be at least 6 characters")
+                    );
+                  } else {
+                    return Promise.resolve();
+                  }
+                },
+              }),
             ]}
           >
             <Input.Password
@@ -86,14 +109,15 @@ const SignUp = () => {
           </Form.Item>
         </Form>
 
-        <div className="mt-4 mb-3">
+        <div className="mt-5 mb-3">
           <Button
+            loading={isLoading}
             onClick={() => form.submit()}
             type="primary"
             style={{ width: "100%" }}
             size="large"
           >
-            Login
+            Regiser
           </Button>
         </div>
         <SocialLogin />
