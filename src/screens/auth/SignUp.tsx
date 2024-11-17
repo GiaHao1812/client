@@ -1,30 +1,37 @@
-import { Button, Card, Form, Input, message, Typography } from "antd";
-import React, { useState } from "react";
+import { Button, Card, Form, Input, message, Space, Typography } from "antd";
+import { useState } from "react";
+import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
-import SocialLogin from "../../components/SocialLogin";
 import handleAPI from "../../apis/handleAPI";
+import SocialLogin from "../../components/SocialLogin";
+import { localDataNames } from "../../constants/appInfor";
+import { addAuth } from "../../redux/reducers/authReducer";
 
 const { Title, Paragraph, Text } = Typography;
 
 const SignUp = () => {
   const [isLoading, setIsLoading] = useState(false);
-
   const [form] = Form.useForm();
+  const dispatch = useDispatch();
 
   const handleLogin = async (values: { email: string; password: string }) => {
-    const api = `/auth/register`;
+		const api = `/auth/register`;
 
-    setIsLoading(true);
-    try {
-      const res = await handleAPI(api, values, "post");
-      console.log(res);
-    } catch (error: any) {
-      console.log(error);
-      message.error(error.message);
-    } finally {
-      setIsLoading(false);
-    }
-  };
+		setIsLoading(true);
+		try {
+			
+			const res: any = await handleAPI(api, values, 'post');
+			if (res.data) {
+				message.success(res.message);
+				dispatch(addAuth(res.data));
+			}
+		} catch (error: any) {
+			console.log(error);
+			message.error(error.message);
+		} finally {
+			setIsLoading(false);
+		}
+	};
   return (
     <>
       <Card>
@@ -39,7 +46,7 @@ const SignUp = () => {
           />
           <Title level={2}>Create your new account</Title>
           <Paragraph type="secondary">
-            Start your 30days free trial now !!!
+            Start your 30 days free trial now !!!
           </Paragraph>
         </div>
 
@@ -51,7 +58,7 @@ const SignUp = () => {
           size="large"
         >
           <Form.Item
-            name={"name"}
+            name="name"
             label="Name"
             rules={[
               {
@@ -63,7 +70,7 @@ const SignUp = () => {
             <Input placeholder="Enter your name" allowClear />
           </Form.Item>
           <Form.Item
-            name={"email"}
+            name="email"
             label="Email"
             rules={[
               {
@@ -72,16 +79,11 @@ const SignUp = () => {
               },
             ]}
           >
-            <Input
-              placeholder="Enter your email"
-              allowClear
-              maxLength={100}
-              type="email"
-            />
+            <Input placeholder="Enter your email" allowClear maxLength={100} />
           </Form.Item>
 
           <Form.Item
-            name={"password"}
+            name="password"
             label="Password"
             rules={[
               {
@@ -104,7 +106,7 @@ const SignUp = () => {
             <Input.Password
               placeholder="Enter your password"
               maxLength={100}
-              type="email"
+              type="password"
             />
           </Form.Item>
         </Form>
@@ -112,12 +114,12 @@ const SignUp = () => {
         <div className="mt-5 mb-3">
           <Button
             loading={isLoading}
-            onClick={() => form.submit()}
+            onClick={form.submit}
             type="primary"
             style={{ width: "100%" }}
             size="large"
           >
-            Regiser
+            Register
           </Button>
         </div>
         <SocialLogin />

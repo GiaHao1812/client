@@ -4,26 +4,27 @@ import Routers from "./routers/Routers";
 import { Provider } from "react-redux";
 import store from "./redux/store";
 
-message.config({
-  top: 30,
-  duration: 2,
-  maxCount: 3,
-  rtl: true,
-  prefixCls: "my-message",
-});
-
 function App() {
+  message.config({
+    top: 30,
+    duration: 2,
+    maxCount: 3,
+    rtl: true,
+    prefixCls: "my-message",
+  });
   return (
-    <ConfigProvider
-      theme={{
-        token: {},
-        components: {},
-      }}
-    >
-      <Provider store={store}>
-        <Routers />;
-      </Provider>
-    </ConfigProvider>
+    <>
+      <ConfigProvider
+        theme={{
+          token: {},
+          components: {},
+        }}
+      >
+        <Provider store={store}>
+          <Routers />
+        </Provider>
+      </ConfigProvider>
+    </>
   );
 }
 

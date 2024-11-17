@@ -1,8 +1,19 @@
-import { Button, Card, Checkbox, Form, Input, Typography } from "antd";
+import {
+  Button,
+  Card,
+  Checkbox,
+  Form,
+  Input,
+  message,
+  Space,
+  Typography,
+} from "antd";
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import SocialLogin from "../../components/SocialLogin";
+import { useDispatch } from "react-redux";
 import handleAPI from "../../apis/handleAPI";
+import SocialLogin from "../../components/SocialLogin";
+import { addAuth } from "../../redux/reducers/authReducer";
 
 const { Title, Paragraph, Text } = Typography;
 
@@ -11,14 +22,19 @@ const Login = () => {
   const [isRemember, setIsRemember] = useState(false);
 
   const [form] = Form.useForm();
-
+  const dispatch = useDispatch();
   const handleLogin = async (values: { email: string; password: string }) => {
     console.log(values);
 
     try {
-      const res: any = await handleAPI("/auth/register", values, "post");
-      console.log(res);
-    } catch (error) {}
+      const res: any = await handleAPI("/auth/login", values, "post");
+      // console.log(res);
+      message.success(res.message);
+      res.data && dispatch(addAuth(res.data));
+    } catch (error: any) {
+      message.error(error.message);
+      console.log(error.message);
+    }
   };
   return (
     <>
@@ -75,7 +91,7 @@ const Login = () => {
             <Input.Password
               placeholder="Enter your password"
               maxLength={100}
-              type="email"
+              type="password"
             />
           </Form.Item>
         </Form>
