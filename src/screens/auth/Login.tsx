@@ -14,6 +14,7 @@ import { useDispatch } from "react-redux";
 import handleAPI from "../../apis/handleAPI";
 import SocialLogin from "../../components/SocialLogin";
 import { addAuth } from "../../redux/reducers/authReducer";
+import { localDataNames } from "../../constants/appInfor";
 
 const { Title, Paragraph, Text } = Typography;
 
@@ -28,9 +29,12 @@ const Login = () => {
 
     try {
       const res: any = await handleAPI("/auth/login", values, "post");
-      // console.log(res);
       message.success(res.message);
       res.data && dispatch(addAuth(res.data));
+
+      if (isRemember) {
+        localStorage.setItem(localDataNames.authData, JSON.stringify(res.data));
+      }
     } catch (error: any) {
       message.error(error.message);
       console.log(error.message);
@@ -112,6 +116,7 @@ const Login = () => {
 
         <div className="mt-4 mb-3">
           <Button
+            loading={isLoading}
             onClick={() => form.submit()}
             type="primary"
             style={{ width: "100%" }}
@@ -120,7 +125,7 @@ const Login = () => {
             Login
           </Button>
         </div>
-        <SocialLogin />
+        <SocialLogin isRemember={isRemember}/>
         <div className="mt-4 text-center">
           <Text type="secondary">Don't have an account ? </Text>
           <Link to="/sign-up">Sign up</Link>

@@ -1,9 +1,9 @@
 import axios from "axios";
 import queryString from "query-string";
 
-// const baseURL = `http://192.168.1.10:3002`;
+const baseURL = `http://192.168.1.6:3002`;
 
-const baseURL = `http://192.168.80.107:3002`;
+// const baseURL = `http://192.168.80.107:3002`;
 
 const axiosClient = axios.create({
   baseURL,
