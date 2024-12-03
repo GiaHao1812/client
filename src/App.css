@@ -36,3 +36,13 @@
     transform: rotate(360deg);
   }
 }
+
+.ant-menu-title-content a:hover{
+  text-decoration: none;
+}
+.full-height-with-extra {
+  height: calc(100vh + 100px);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}

@@ -14,7 +14,7 @@ import { useDispatch } from "react-redux";
 import handleAPI from "../../apis/handleAPI";
 import SocialLogin from "../../components/SocialLogin";
 import { addAuth } from "../../redux/reducers/authReducer";
-import { localDataNames } from "../../constants/appInfor";
+import { appInfor, localDataNames } from "../../constants/appInfor";
 
 const { Title, Paragraph, Text } = Typography;
 
@@ -45,7 +45,7 @@ const Login = () => {
       <Card>
         <div className="text-center">
           <img
-            src="/LogoKanban.png"
+            src={appInfor.logo}
             alt="Kanban Logo"
             style={{
               width: 65,
@@ -125,7 +125,7 @@ const Login = () => {
             Login
           </Button>
         </div>
-        <SocialLogin isRemember={isRemember}/>
+        <SocialLogin isRemember={isRemember} />
         <div className="mt-4 text-center">
           <Text type="secondary">Don't have an account ? </Text>
           <Link to="/sign-up">Sign up</Link>

@@ -1,10 +1,10 @@
 import { Button } from "antd";
-import React from "react";
-import { useDispatch } from "react-redux";
-import { removeAuth } from "../redux/reducers/authReducer";
+import { useDispatch, useSelector } from "react-redux";
+import { authSeletor, removeAuth } from "../redux/reducers/authReducer";
 
 const HomeScreen = () => {
   const dispatch = useDispatch();
+  const auth = useSelector(authSeletor);
 
   const logout = () => {
     dispatch(removeAuth({}));

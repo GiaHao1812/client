@@ -13,13 +13,11 @@ provider.setCustomParameters({
   login_hint: "giahaobanh2004@gmail.com",
 });
 
-
 interface Props {
-  isRemember: boolean;
+  isRemember?: boolean;
 }
-const SocialLogin = (props : Props) => {
-
-  const {isRemember} = props;
+const SocialLogin = (props: Props) => {
+  const { isRemember } = props;
 
   const [isLoading, setLoading] = useState(false);
 
@@ -33,29 +31,31 @@ const SocialLogin = (props : Props) => {
 
       if (result) {
         const user = result.user;
-       if(user){
-         const data =  { 
-             name: user.displayName,
-             email: user.email,
-         };
+        if (user) {
+          const data = {
+            name: user.displayName,
+            email: user.email,
+          };
 
-         const api = `/auth/google-login`;
-         try {
-          const res:any = await handleAPI(api ,  data , "post");
-          message.success(res.message)
-          dispatch(addAuth(res.data))
-          
-          
-          if (isRemember) {
-            localStorage.setItem(localDataNames.authData, JSON.stringify(res.data));
+          const api = `/auth/google-login`;
+          try {
+            const res: any = await handleAPI(api, data, "post");
+            message.success(res.message);
+            dispatch(addAuth(res.data));
+
+            if (isRemember) {
+              localStorage.setItem(
+                localDataNames.authData,
+                JSON.stringify(res.data)
+              );
+            }
+          } catch (error: any) {
+            console.log(error.message);
+            message.error(error.message);
+          } finally {
+            setLoading(false);
           }
-         } catch (error:any) {
-          console.log(error.message)
-          message.error(error.message)
-         }finally{
-          setLoading(false)
-         }
-       }
+        }
       } else {
         console.log("Can not login with google");
       }
