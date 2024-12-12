@@ -45,7 +45,7 @@ const SiderComponent = () => {
     },
   ];
   return (
-    <Sider theme="light" style={{ height: "100vh" }}>
+    <Sider width={260} theme="light" style={{ height: "100vh" }}>
       <div className="d-flex align-items-center p-2 " style={{ gap: "0.5rem" }}>
         <img src={appInfor.logo} alt="kanban logo" width={48} />
         <Text

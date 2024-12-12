@@ -2,8 +2,8 @@ import axios from "axios";
 import queryString from "query-string";
 import { localDataNames } from "../constants/appInfor";
 
-
-const baseURL = `http://192.168.1.6:3002`;
+const baseURL = `http://192.168.1.9:3002`;
+// const baseURL = "http://172.20.10.5:3002";
 // const baseURL = `http://192.168.80.107:3002`;
 
 const getAccesstoken = () => {

@@ -7,7 +7,7 @@ const HeaderComponent = () => {
     <div className="p-2 row bg-white">
       <div className="col">
         <Input
-          placeholder="Search..."
+          placeholder="Search product, supplier, order..."
           style={{
             borderRadius: 100,
             width: "50%",
